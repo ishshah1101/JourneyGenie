@@ -18,3 +18,6 @@ Currently, two official plugins are available:
 
 - to install input component from shadcn
     - npx shadcn@latest add input
+
+- to install the sonner from shadcn
+    - npx shadcn@latest add sonner
