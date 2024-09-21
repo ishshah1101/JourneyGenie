@@ -21,3 +21,6 @@ Currently, two official plugins are available:
 
 - to install the sonner from shadcn
     - npx shadcn@latest add sonner
+
+- to install gemini api for using it
+    - npm install @google/generative-ai
