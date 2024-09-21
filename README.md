@@ -12,3 +12,9 @@ Currently, two official plugins are available:
     - npm init
     - Install extensions ES7+ React/Redux
     - Install TailWind CSS
+
+- to install google place autocomplete
+    - npm install --save react-google-places-autocomplete
+
+- to install input component from shadcn
+    - npx shadcn@latest add input
