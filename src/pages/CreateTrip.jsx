@@ -18,27 +18,30 @@ function CreateTrip() {
   };
 
   useEffect(() => {
+    console.log(import.meta.env.VITE_GOOGLE_PLACE_API_KEY);
     console.log(formData);
   }, [formData]);
 
-  const OnGenerateTrip=async()=>{
-    if (formData?.noOfDays>5&&(!formData?.location || !formData?.budget || !formData?.traveller)) {
+  const OnGenerateTrip = async () => {
+    console.log();
+
+    if (formData?.noOfDays > 5 && (!formData?.location || !formData?.budget || !formData?.traveller)) {
       console.log("Enter Valid details");
       toast("Please fill all the details");
       return;
     }
     const FINAL_PROMPT = AI_PROMPT
-    .replace('{location}',formData?.location?.label)
-    .replace('{totalDays}',formData?.noOfDays)
-    .replace('{traveller}',formData?.traveller)
-    .replace('{budget}',formData?.budget)
-    .replace('{totalDays}',formData?.noOfDays)
+      .replace('{location}', formData?.location?.label)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{traveller}', formData?.traveller)
+      .replace('{budget}', formData?.budget)
+      .replace('{totalDays}', formData?.noOfDays)
 
     console.log(FINAL_PROMPT);
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
-    console.log(result?.response?.text);
-    
+    console.log(result?.response?.text());
+
   }
 
   return (
@@ -50,7 +53,8 @@ function CreateTrip() {
       <div className='flex flex-col mt-20 gap-10'>
         <div className='mt-20'>
           <h2 className='text-xl my-3 font-medium'>What is your destination of your choice?</h2>
-          {/* <GooglePlacesAutocomplete apiKey={import.meta.env.GOOGLE_PLACE_API_KEY} selectProps={{place,onChange:(v)=>{setPlace(v);handleInputChange('location',v)}}}/> */}
+          {/* <GooglePlacesAutocomplete apiKey={import.meta.env.GOOGLE_PLACE_API_KEY} /> */}
+          <GooglePlacesAutocomplete apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY} selectProps={{ place, onChange: (v) => { setPlace(v); handleInputChange('location', v) } }} />
         </div>
       </div>
       <div>
