@@ -6,7 +6,8 @@ import React, { useEffect, useState } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { toast } from 'sonner';
 import { FcGoogle } from "react-icons/fc";
-
+import { doc, setDoc } from "firebase/firestore";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
   Dialog,
   DialogContent,
@@ -17,12 +18,14 @@ import {
 } from "@/components/ui/dialog"
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { db } from '@/service/FirebaseConfig';
 
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleInputChange = (name, value) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -36,8 +39,8 @@ function CreateTrip() {
   }, [formData]);
 
   const login = useGoogleLogin({
-    onSuccess:(codeResp)=>GetUserProfile(codeResp),
-    onError:(error)=>console.log(error)
+    onSuccess: (codeResp) => GetUserProfile(codeResp),
+    onError: (error) => console.log(error)
   })
 
   const OnGenerateTrip = async () => {
@@ -56,6 +59,7 @@ function CreateTrip() {
       toast("Please fill all the details");
       return;
     }
+    setLoading(true);
     const FINAL_PROMPT = AI_PROMPT
       .replace('{location}', formData?.location?.label)
       .replace('{totalDays}', formData?.noOfDays)
@@ -67,18 +71,33 @@ function CreateTrip() {
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     console.log(result?.response?.text());
+    setLoading(false);
+    SaveAiTrip(result?.response?.text());
 
   }
 
-  const GetUserProfile=(tokenInfo)=>{
-    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,{
-      headers:{
-        Authorization:`Bearer${tokenInfo?.access_token}`,
-        Accept:'Application/json'
+  const SaveAiTrip = async (TripData) => {
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem('user'));
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "AITrips", docId), {
+      userSelection: formData,
+      tripData: JSON.parse(TripData),
+      userEmail: user.email,
+      id: docId
+    });
+    setLoading(false);
+  }
+
+  const GetUserProfile = (tokenInfo) => {
+    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`, {
+      headers: {
+        Authorization: `Bearer${tokenInfo?.access_token}`,
+        Accept: 'Application/json'
       }
-    }).then((resp)=>{
+    }).then((resp) => {
       console.log(resp);
-      localStorage.setItem('user',JSON.stringify(resp.data));
+      localStorage.setItem('user', JSON.stringify(resp.data));
       setOpenDialog(false);
       OnGenerateTrip();
     })
@@ -137,7 +156,10 @@ function CreateTrip() {
       </div>
 
       <div className='my-10 justify-end flex'>
-        <Button onClick={OnGenerateTrip}>Generate Trip</Button>
+        <Button disabled={loading} onClick={OnGenerateTrip}>{loading ? <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' /> :
+          'Generate Trip'
+        }
+        </Button>
       </div>
 
       <Dialog open={openDialog}>
@@ -148,11 +170,15 @@ function CreateTrip() {
               <h2 className='font-bold text-lg mt-7'>Sign In With Gmail Account</h2>
               <p>Sign in to the App with Goofle authentication security</p>
 
-              <Button 
-              onClick={login}
-              className="mt-5 w-full flex gap-4 items-center">
-                <FcGoogle className='h-7 w-7'/>
+              <Button
+                onClick={login}
+                className="mt-5 w-full flex gap-4 items-center">
+
+
+
+                <FcGoogle className='h-7 w-7' />
                 Sign In with Google
+
               </Button>
             </DialogDescription>
           </DialogHeader>
