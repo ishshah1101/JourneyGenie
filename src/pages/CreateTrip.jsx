@@ -37,8 +37,8 @@ function CreateTrip() {
   };
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_GOOGLE_PLACE_API_KEY);
-    console.log(formData);
+    // console.log(import.meta.env.VITE_GOOGLE_PLACE_API_KEY);
+    // console.log(formData);
   }, [formData]);
 
   const login = useGoogleLogin({
@@ -172,7 +172,7 @@ function CreateTrip() {
             <DialogDescription>
               <img src="./jouneyGenieLogo.png" height="150" width="50" alt="" />
               <h2 className='font-bold text-lg mt-7'>Sign In With Gmail Account</h2>
-              <p>Sign in to the App with Goofle authentication security</p>
+              <p>Sign in to the App with Google authentication security</p>
 
               <Button
                 onClick={login}

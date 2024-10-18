@@ -22,7 +22,6 @@ function PlacesToVisit({trip}) {
             ))}
             
         </div>
-        {console.log(trip)};
     </div>
   )
 }

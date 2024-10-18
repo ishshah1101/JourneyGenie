@@ -4,6 +4,9 @@ import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
 
 function PlaceCardItem({place}) {
+    // const link = "https://www.google.com/maps/search/?api=1&query=" +place?.placeName;
+    // console.log(link);
+    
   return (
     <Link to={
         "https://www.google.com/maps/search/?api=1&query=" +place?.placeName

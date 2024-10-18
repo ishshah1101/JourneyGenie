@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 
 function ViewTrip() {
     const {tripId} = useParams();
+    // console.log(tripId);
+    
     const[trip,setTrip] = useState([]);
     useEffect(()=>{
        tripId && GetTripData();
@@ -21,7 +23,7 @@ function ViewTrip() {
         const docSnap = await getDoc(docRef);
     
         if(docSnap.exists()){
-            console.log("Document:",docSnap.data());
+            // console.log("Document:",docSnap.data());
             setTrip(docSnap.data());
         } else{
             console.log("No such document exists in firebase");
