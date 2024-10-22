@@ -55,13 +55,19 @@ function CreateTrip() {
       return;
     }
 
-    console.log();
-
-    if (formData?.noOfDays > 5 && (!formData?.location || !formData?.budget || !formData?.traveller)) {
-      console.log("Enter Valid details");
-      toast("Please fill all the details");
+    if(!formData?.noOfDays || !formData?.location || !formData?.budget || !formData?.traveller){
+      toast("Please fill all details")
       return;
     }
+    if(formData?.noOfDays<0){
+      toast("Total days can't negative");
+      return;
+    }
+    if(formData?.noOfDays>8){
+      toast("Total days can't be more than 7 days.")
+      return;
+    }
+
     setLoading(true);
     const FINAL_PROMPT = AI_PROMPT
       .replace('{location}', formData?.location?.label)
