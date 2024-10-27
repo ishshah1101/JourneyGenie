@@ -11,6 +11,7 @@ import MyTrips from './pages/MyTrips.jsx';
 import FavouriteTrips from './pages/FavouriteTrips.jsx';
 import TripJournal from './pages/TripJournal.jsx';
 import CreateJournal from './components/custom/CreateJournal.jsx';
+import FlightSearch from './pages/FlightSearch.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         path: 'create-journal',
         element: <CreateJournal />,
       },
+      {
+        path: 'flight-search',
+        element: <FlightSearch/>
+      }
     ],
   },
 ]);

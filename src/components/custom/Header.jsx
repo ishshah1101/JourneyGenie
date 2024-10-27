@@ -37,6 +37,9 @@ function Header() {
       <div className='flex justify-center items-center'>
         {user ? (
           <div className='flex items-center gap-3'>
+            <Link to="/flight-search">
+              <Button variant="outline" className="rounded-full">Flight Search</Button>
+            </Link>
             <Link to="/create-journal">
               <Button variant="outline" className="rounded-full">Create Journal</Button>
             </Link>
