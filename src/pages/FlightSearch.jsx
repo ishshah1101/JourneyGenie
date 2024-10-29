@@ -1,153 +1,9 @@
-// import { searchFlights } from '@/service/FlightApi';
-// import React, { useState } from 'react';
-// import './FlightSearch.css';
-// import { airportData } from '@/assets/airportData';
-
-
-// const FlightSearch = () => {
-//   const [sourceAirportCode, setSourceAirportCode] = useState('');
-//   const [destinationAirportCode, setDestinationAirportCode] = useState('');
-//   const [travelDate, setTravelDate] = useState('');
-//   const [numAdults, setNumAdults] = useState(1);
-//   const [numSeniors, setNumSeniors] = useState(0);
-//   const [classOfService, setClassOfService] = useState('ECONOMY');
-//   const [flights, setFlights] = useState([]);
-//   const [error, setError] = useState(null);
-
-//   const handleFlightSearch = async () => {
-//     setError(null);
-//     try {
-//       const data = await searchFlights(
-//         sourceAirportCode,
-//         destinationAirportCode,
-//         travelDate,
-//         numAdults,
-//         numSeniors,
-//         classOfService
-//       );
-//       console.log("Flight search response:", data);
-//       setFlights(data); // Adjust based on actual response structure
-//     } catch (err) {
-//       setError(err);
-//     }
-//   };
-
-//   const airportOptions = Object.values(airportData).map(airport => ({
-//     code: airport.icao,
-//     name: `${airport.city}, ${airport.state}`
-//   }));
-
-//   return (
-//     <div className="flight-search">
-//       <h1>Flight Search</h1>
-
-//       <div className="form-group">
-//         <label htmlFor="sourceAirport">Source Airport:</label>
-//         <select
-//           id="sourceAirport"
-//           value={sourceAirportCode}
-//           onChange={(e) => setSourceAirportCode(e.target.value)}
-//         >
-//           <option value="">Select Source Airport</option>
-//           {airportOptions.map((airport) => (
-//             <option key={airport.code} value={airport.code}>
-//               {airport.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <div className="form-group">
-//         <label htmlFor="destinationAirport">Destination Airport:</label>
-//         <select
-//           id="destinationAirport"
-//           value={destinationAirportCode}
-//           onChange={(e) => setDestinationAirportCode(e.target.value)}
-//         >
-//           <option value="">Select Destination Airport</option>
-//           {airportOptions.map((airport) => (
-//             <option key={airport.code} value={airport.code}>
-//               {airport.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <div className="form-group">
-//         <label htmlFor="travelDate">Travel Date:</label>
-//         <input
-//           id="travelDate"
-//           type="date"
-//           value={travelDate}
-//           onChange={(e) => setTravelDate(e.target.value)}
-//         />
-//       </div>
-
-//       <div className="form-group">
-//         <label htmlFor="numAdults">Adults:</label>
-//         <input
-//           id="numAdults"
-//           type="number"
-//           min="1"
-//           value={numAdults}
-//           onChange={(e) => setNumAdults(Number(e.target.value))}
-//         />
-//       </div>
-
-//       <div className="form-group">
-//         <label htmlFor="numSeniors">Seniors:</label>
-//         <input
-//           id="numSeniors"
-//           type="number"
-//           min="0"
-//           value={numSeniors}
-//           onChange={(e) => setNumSeniors(Number(e.target.value))}
-//         />
-//       </div>
-
-//       <div className="form-group">
-//         <label htmlFor="classOfService">Class of Service:</label>
-//         <select
-//           id="classOfService"
-//           value={classOfService}
-//           onChange={(e) => setClassOfService(e.target.value)}
-//         >
-//           <option value="ECONOMY">Economy</option>
-//           <option value="PREMIUM_ECONOMY">Premium Economy</option>
-//           <option value="BUSINESS">Business</option>
-//           <option value="FIRST">First</option>
-//         </select>
-//       </div>
-
-//       <button className="search-button" onClick={handleFlightSearch}>
-//         Search Flights
-//       </button>
-
-//       {/* Error Message */}
-//       {error && <div className="error-message">Error: {error.message}</div>}
-
-//       {/* Flights List */}
-//       {flights.length > 0 && (
-//         <div>
-//           <h2>Available Flights</h2>
-//           <ul className="flights-list">
-//             {flights.slice(0, 10).map((flight) => (
-//               <li key={flight.id}>{flight.details}</li> // Adjust based on actual response structure
-//             ))}
-//           </ul>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default FlightSearch;
-
-
 import { searchFlights, searchAirports } from '@/service/FlightApi';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { toast } from 'sonner'; // Import toast
 import './FlightSearch.css';
 import { airportData } from '@/assets/airportData';
+// import { s } from 'vite/dist/node/types.d-aGj9QkWt';
 
 const FlightSearch = () => {
   const [sourceCity, setSourceCity] = useState('');
@@ -160,205 +16,236 @@ const FlightSearch = () => {
   const [classOfService, setClassOfService] = useState('ECONOMY');
   const [flights, setFlights] = useState([]);
   const [error, setError] = useState(null);
-  const [sourceAirportOptions, setSourceAirportOptions] = useState([]);
-  const [destinationAirportOptions, setDestinationAirportOptions] = useState([]);
 
-  // Create a list of unique city names from airportData
-  const cities = Object.values(airportData)
-    .map(airport => airport.city)
-    .filter((value, index, self) => self.indexOf(value) === index);
-
-  const handleAirportSearch = async (city, isSource) => {
+  const handleSourceAirportSearch = async (city) => {
     try {
-      const data = await searchAirports(city);
-      const options = data.map(airport => ({
-        code: airport.icao,
-        name: `${airport.name} (${airport.city}, ${airport.state})`
-      }));
-
-      if (isSource) {
-        setSourceAirportOptions(options);
-        setSourceAirportCode(options.length > 0 ? options[0].code : '');
+      const response = await searchAirports(city);
+      if (response && response.data && response.data.data.length > 0) {
+        const airportCode = response.data.data[0].airportCode;
+        setSourceAirportCode(airportCode);
+        return airportCode;
       } else {
-        setDestinationAirportOptions(options);
-        setDestinationAirportCode(options.length > 0 ? options[0].code : '');
+        setError(`No airport found for ${city}`);
+        return null;
       }
     } catch (err) {
-      setError(err.message);
+      setError(`Error fetching airport data: ${err.message}`);
+      return null;
+    }
+  };
+
+  const handleDestinationAirportSearch = async (city) => {
+    try {
+      const response = await searchAirports(city);
+      if (response && response.data && response.data.data.length > 0) {
+        const airportCode = response.data.data[0].airportCode;
+        setDestinationAirportCode(airportCode);
+        return airportCode;
+      } else {
+        setError(`No airport found for ${city}`);
+        return null;
+      }
+    } catch (err) {
+      setError(`Error fetching airport data: ${err.message}`);
+      return null;
     }
   };
 
   const handleFlightSearch = async () => {
+    // Display loading toast
+    const loadingToast = toast.loading("Fetching flight details...");
+
     setError(null);
-    
-    // Validate the travel date
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const selectedDate = new Date(travelDate);
+
     if (selectedDate < today) {
       setError("Travel date should not be in the past.");
+      toast.dismiss(loadingToast); // Dismiss loading toast
       return;
     }
 
-    // Ensure source and destination airport codes are set
-    if (!sourceAirportCode || !destinationAirportCode) {
+    let sourcecode = sourceAirportCode;
+    let destinationcode = destinationAirportCode;
+
+    if (!sourcecode) {
+      sourcecode = await handleSourceAirportSearch(sourceCity);
+      console.log('Source Code:', sourcecode);
+    }
+    if (!destinationcode) {
+      destinationcode = await handleDestinationAirportSearch(destinationCity);
+      console.log('Destination Code:', destinationcode);
+
+    }
+
+    if (!sourcecode || !destinationcode) {
       setError("Please select both source and destination airports.");
+      toast.dismiss(loadingToast); // Dismiss loading toast
       return;
     }
+
+    console.log('Source Code:', sourcecode); // Log the source airport code
+    console.log('Destination Code:', destinationcode); // Log the destination airport code
 
     try {
-      const data = await searchFlights(
-        sourceAirportCode,
-        destinationAirportCode,
+      const response = await searchFlights(
+        sourcecode,
+        destinationcode,
         travelDate,
         numAdults,
         numSeniors,
         classOfService
       );
 
-      if (!data.status) {
-        const errorMessages = data.message.map(msg => (typeof msg === 'object' ? JSON.stringify(msg) : msg));
-        setError(errorMessages.join(', '));
-        return;
+      console.log('API Response:', response.data); // Log the full response
+      if (response && response.data && response.data.flights) {
+        setFlights(response.data.flights);
+        console.log('Fetched Flights:', response.data.flights); // Log the flights array
+        toast.success("Flights fetched successfully!"); // Show success toast
+      } else {
+        setFlights([]);
+        setError("No flights found.");
+        toast.error("No flights found."); // Show error toast
       }
-
-      setFlights(data.flights);
     } catch (err) {
       setError(err.message);
+      toast.error(`Error: ${err.message}`); // Show error toast
+    } finally {
+      toast.dismiss(loadingToast); // Dismiss loading toast
     }
   };
 
+
   return (
-    <div className="flight-search">
-      <h1>Flight Search</h1>
-
-      <div className="form-group">
-        <label htmlFor="sourceCity">Source City:</label>
-        <select
-          id="sourceCity"
-          value={sourceCity}
-          onChange={(e) => {
-            setSourceCity(e.target.value);
-            handleAirportSearch(e.target.value, true);
-          }}
-        >
-          <option value="">Select Source City</option>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-
-        {sourceAirportOptions.length > 0 && (
+    <div>
+      <div className="flight-search">
+        <h1>Flight Search</h1>
+        <div className="form-group">
+          <label htmlFor="sourceCity">Source City:</label>
           <select
-            value={sourceAirportCode}
-            onChange={(e) => setSourceAirportCode(e.target.value)}
+            id="sourceCity"
+            value={sourceCity}
+            onChange={(e) => setSourceCity(e.target.value)}
           >
-            <option value="">Select Source Airport</option>
-            {sourceAirportOptions.map((airport) => (
-              <option key={airport.code} value={airport.code}>
-                {airport.name}
-              </option>
+            <option value="">Select Source City</option>
+            {airportData.map(city => (
+              <option key={city} value={city}>{city}</option>
             ))}
           </select>
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="destinationCity">Destination City:</label>
-        <select
-          id="destinationCity"
-          value={destinationCity}
-          onChange={(e) => {
-            setDestinationCity(e.target.value);
-            handleAirportSearch(e.target.value, false);
-          }}
-        >
-          <option value="">Select Destination City</option>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-
-        {destinationAirportOptions.length > 0 && (
-          <select
-            value={destinationAirportCode}
-            onChange={(e) => setDestinationAirportCode(e.target.value)}
-          >
-            <option value="">Select Destination Airport</option>
-            {destinationAirportOptions.map((airport) => (
-              <option key={airport.code} value={airport.code}>
-                {airport.name}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="travelDate">Travel Date:</label>
-        <input
-          id="travelDate"
-          type="date"
-          value={travelDate}
-          onChange={(e) => setTravelDate(e.target.value)}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="numAdults">Adults:</label>
-        <input
-          id="numAdults"
-          type="number"
-          min="1"
-          value={numAdults}
-          onChange={(e) => setNumAdults(Number(e.target.value))}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="numSeniors">Seniors:</label>
-        <input
-          id="numSeniors"
-          type="number"
-          min="0"
-          value={numSeniors}
-          onChange={(e) => setNumSeniors(Number(e.target.value))}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="classOfService">Class of Service:</label>
-        <select
-          id="classOfService"
-          value={classOfService}
-          onChange={(e) => setClassOfService(e.target.value)}
-        >
-          <option value="ECONOMY">Economy</option>
-          <option value="PREMIUM_ECONOMY">Premium Economy</option>
-          <option value="BUSINESS">Business</option>
-          <option value="FIRST">First</option>
-        </select>
-      </div>
-
-      <button className="search-button" onClick={handleFlightSearch}>
-        Search Flights
-      </button>
-
-      {error && <div className="error-message">Error: {error}</div>}
-
-      {flights.length > 0 && (
-        <div>
-          <h2>Available Flights</h2>
-          <ul className="flights-list">
-            {flights.slice(0, 10).map((flight) => (
-              <li key={flight.id}>
-                <a href={flight.link} target="_blank" rel="noopener noreferrer">
-                  {flight.details}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
-      )}
+
+        <div className="form-group">
+          <label htmlFor="destinationCity">Destination City:</label>
+          <select
+            id="destinationCity"
+            value={destinationCity}
+            onChange={(e) => setDestinationCity(e.target.value)}
+          >
+            <option value="">Select Destination City</option>
+            {airportData.map(city => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="travelDate">Travel Date:</label>
+          <input
+            id="travelDate"
+            type="date"
+            value={travelDate}
+            onChange={(e) => setTravelDate(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="numAdults">Adults:</label>
+          <input
+            id="numAdults"
+            type="number"
+            min="1"
+            value={numAdults}
+            onChange={(e) => setNumAdults(Number(e.target.value))}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="numSeniors">Seniors:</label>
+          <input
+            id="numSeniors"
+            type="number"
+            min="0"
+            value={numSeniors}
+            onChange={(e) => setNumSeniors(Number(e.target.value))}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="classOfService">Class of Service:</label>
+          <select
+            id="classOfService"
+            value={classOfService}
+            onChange={(e) => setClassOfService(e.target.value)}
+          >
+            <option value="ECONOMY">Economy</option>
+            <option value="PREMIUM_ECONOMY">Premium Economy</option>
+            <option value="BUSINESS">Business</option>
+            <option value="FIRST">First</option>
+          </select>
+        </div>
+
+        <button className="search-button" onClick={handleFlightSearch}>
+          Search Flights
+        </button>
+
+        {error && <div className="error-message">Error: {error}</div>}
+      </div>
+
+      <div className="flight-results">
+        <h2>Available Flights</h2>
+        {flights.length > 0 ? (
+          <ul className="flights-list">
+            {flights.slice(0, 10).map((flight, flightIndex) => {
+              // Calculate the provider index using modulo
+              const providerIndex = flightIndex % 4; // Alternates between 0, 1, 2, 3
+
+              // Check if there are valid purchase links available
+              if (flight.purchaseLinks && flight.purchaseLinks.length > 0 && providerIndex < flight.purchaseLinks.length) {
+                return (
+                  <li key={flightIndex}>
+                    <div className="purchase-link">
+                      <p><strong className='text-xl'>Total Passengers:</strong> <span className='text-2xl'>{numAdults + numSeniors}</span></p>
+                      <div className='flex gap-10'>
+                        <p><strong>Adults:</strong> {numAdults}</p>
+                        <p><strong>Seniors:</strong> {numSeniors}</p>
+                      </div>
+                      <p><strong>Total Price:</strong> <span className="text-2xl">${flight.purchaseLinks[providerIndex].totalPrice}</span></p>
+                      <div className='text-center'>
+                        <a
+                          href={flight.purchaseLinks[providerIndex].url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Book on {flight.purchaseLinks[providerIndex].providerId}
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                );
+              }
+
+              // Skip rendering this flight if no purchase links are available
+              return null;
+            })}
+          </ul>
+        ) : (
+          <p>No flights found.</p>
+        )}
+      </div>
+
+
+
     </div>
   );
 };

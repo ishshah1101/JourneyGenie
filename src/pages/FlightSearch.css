@@ -1,63 +1,146 @@
+/* Container styling for flight search form */
 .flight-search {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  select, input[type="date"], input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .search-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .search-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  .flights-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .flights-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Centered title */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+select,
+input[type="date"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+.search-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Error message */
+.error-message {
+  color: #d9534f;
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Flight results section */
+.flight-results {
+  max-width: 700px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flight-results h2 {
+  text-align: center;
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Flight list styling */
+.flights-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+/* Flight item styling */
+.flights-list li {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.flights-list li:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Flight provider information styling */
+.flights-list p {
+  margin: 5px 0;
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+}
+
+.flights-list p strong {
+  color: #333;
+}
+
+.flights-list a {
+  font-size: 18px;
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.flights-list a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Consistent spacing */
+.flight-search .form-group,
+.flight-results .flights-list li {
+  width: 100%;
+}
