@@ -1,4 +1,5 @@
 import { searchFlights, searchAirports } from '@/service/FlightApi';
+import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { toast } from 'sonner'; // Import toast
 import './FlightSearch.css';
@@ -195,9 +196,9 @@ const FlightSearch = () => {
           </select>
         </div>
 
-        <button className="search-button" onClick={handleFlightSearch}>
+        <Button className="search-button" onClick={handleFlightSearch}>
           Search Flights
-        </button>
+        </Button>
 
         {error && <div className="error-message">Error: {error}</div>}
       </div>

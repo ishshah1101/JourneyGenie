@@ -12,12 +12,17 @@ import FavouriteTrips from './pages/FavouriteTrips.jsx';
 import TripJournal from './pages/TripJournal.jsx';
 import CreateJournal from './components/custom/CreateJournal.jsx';
 import FlightSearch from './pages/FlightSearch.jsx';
+import LandingPage from './components/custom/LandingPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />, // This includes the Header and will render the Outlet
     children: [
+      {
+        path: '/',
+        element: <LandingPage/>,
+      },
       {
         path: 'create-trip',
         element: <CreateTrip />,

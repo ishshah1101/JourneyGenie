@@ -55,15 +55,15 @@ function CreateTrip() {
       return;
     }
 
-    if(!formData?.noOfDays || !formData?.location || !formData?.budget || !formData?.traveller){
+    if (!formData?.noOfDays || !formData?.location || !formData?.budget || !formData?.traveller) {
       toast("Please fill all details")
       return;
     }
-    if(formData?.noOfDays<0){
+    if (formData?.noOfDays < 0) {
       toast("Total days can't negative");
       return;
     }
-    if(formData?.noOfDays>8){
+    if (formData?.noOfDays > 8) {
       toast("Total days can't be more than 7 days.")
       return;
     }
@@ -96,7 +96,7 @@ function CreateTrip() {
       id: docId
     });
     setLoading(false);
-    navigate('/view-trip/'+docId);
+    navigate('/view-trip/' + docId);
   }
 
   const GetUserProfile = (tokenInfo) => {
@@ -117,7 +117,7 @@ function CreateTrip() {
     <div className='sm:x-10 md:px32 lg:px-56 xl:px-72 px-5 mt-10'>
       <h2 className='font-bold text-3xl'>Tell us about your travel preferences!! 🏕️🌴</h2>
       <p className='mt-3 text-gray-500 text-xl'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis nesciunt, animi deleniti, ea, nulla fugiat sunt vel corrupti delectus facilis sint explicabo maxime natus maiores! Modi quas natus doloremque quisquam.
+      Tell us your travel preferences, budget, and group size, and we’ll create a personalized itinerary just for you. Whether it’s adventure, relaxation, or culture, we’ll tailor the perfect trip to suit your style and needs. Your ideal vacation starts here!
       </p>
       <div className='flex flex-col mt-20 gap-10'>
         <div className='mt-20'>
@@ -172,7 +172,7 @@ function CreateTrip() {
         </Button>
       </div>
 
-      <Dialog open={openDialog}>
+      {/* <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
@@ -189,6 +189,32 @@ function CreateTrip() {
                 <FcGoogle className='h-7 w-7' />
                 Sign In with Google
 
+              </Button>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog> */}
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogDescription>
+              <div className='flex justify-center'>
+              <img src="./jouneyGenieLogo.png" width="200" alt="" />
+              </div>
+              <h2 className='text-lg mt-7 text-center font-extrabold text-black'>Sign In With Gmail Account</h2>
+              <p className='text-center'>Sign in to the Website with Google authentication security</p>
+
+              <Button onClick={login} className="mt-5 w-full flex gap-4 items-center">
+                <FcGoogle className='h-7 w-7' />
+                Sign In with Google
+              </Button>
+
+              {/* Add a Close Button here */}
+              <Button
+                onClick={() => setOpenDialog(false)}
+                className="mt-3 w-full bg-gray-200 text-gray-600 hover:bg-gray-300"
+              >
+                Close
               </Button>
             </DialogDescription>
           </DialogHeader>

@@ -3,6 +3,7 @@ import { db, storage } from '@/service/FirebaseConfig';
 import { addDoc, collection } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 
 const CreateJournal = () => {
   const user = JSON.parse(localStorage.getItem('user')); // Get the current user info from local storage
@@ -104,9 +105,9 @@ const CreateJournal = () => {
         />
       </div>
       <div className='my-10 justify-end flex'>
-        <button onClick={handleCreateJournal} disabled={loading} className="bg-blue-500 text-white p-4 rounded-lg">
+        <Button onClick={handleCreateJournal} disabled={loading} className=" text-white p-4 rounded-lg">
           {loading ? 'Submitting...' : 'Submit Journal Entry'}
-        </button>
+        </Button>
       </div>
     </div>
   );

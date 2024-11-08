@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog";
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,6 +10,8 @@ import { FcGoogle } from 'react-icons/fc';
 function Header() {
   const user = JSON.parse(localStorage.getItem('user'));
   const [openDialog, setOpenDialog] = useState(false);
+  const [isMyTripsActive, setIsMyTripsActive] = useState(false);
+  const location = useLocation();
 
   const login = useGoogleLogin({
     onSuccess: (codeResp) => GetUserProfile(codeResp),
@@ -29,42 +31,67 @@ function Header() {
     });
   };
 
+  // Reset My Trips highlight when user navigates away from /my-trips
+  useEffect(() => {
+    if (location.pathname !== '/my-trips') {
+      setIsMyTripsActive(false);
+    }
+  }, [location]);
+
   return (
-    <div className='flex justify-between w-100 p-5 px-5 shadow text-center bg-blue-200'>
+    <div className='flex justify-between w-full p-5 px-5 shadow text-center bg-blue-200'>
       <Link to="/create-trip">
         <img src="/jouneyGenieLogo.png" className='h-25 w-40' alt="Journey Genie Logo" />
       </Link>
       <div className='flex justify-center items-center'>
         {user ? (
           <div className='flex items-center gap-3'>
-            <Link to="/flight-search">
-              <Button variant="outline" className="rounded-full">Flight Search</Button>
+            <Link to="/flight-search" style={{ color: 'inherit' }}>
+              <Button variant="outline" className="rounded-full font-bold">+ Flight Search</Button>
             </Link>
-            <Link to="/create-journal">
-              <Button variant="outline" className="rounded-full">Create Journal</Button>
+
+            <Link to="/create-journal" style={{ color: 'inherit' }}>
+              <Button variant="outline" className="rounded-full font-bold">+ Journal</Button>
             </Link>
-            <Link to="/trip-journal">
-              <Button variant="outline" className="rounded-full">Trip Journal</Button>
+            <Link to="/create-trip" style={{ color: 'inherit' }}>
+              <Button variant="outline" className="rounded-full font-bold">+ Trip</Button>
             </Link>
-            <Link to="/favourite-trips">
-              <Button variant="outline" className="rounded-full">Favourite Trips</Button>
-            </Link>
-            <Link to="/create-trip">
-              <Button variant="outline" className="rounded-full">+ Create Trip</Button>
-            </Link>
-            <Link to="/my-trips">
-              <Button variant="outline" className="rounded-full">My Trips</Button>
-            </Link>
+
             <Popover>
               <PopoverTrigger>
                 <img src={user?.picture} className='h-[35px] w-[35px] rounded-full' />
               </PopoverTrigger>
               <PopoverContent>
-                <h2 className='cursor-pointer' onClick={() => {
-                  googleLogout();
-                  localStorage.clear();
-                  window.location.reload();
-                }}>Log Out</h2>
+                <Link to="/my-trips" style={{ color: 'inherit' }}>
+                  <Button
+                    variant={isMyTripsActive ? "solid" : "ghost"}
+                    className="w-full text-left text-current font-bold"
+                    onClick={() => setIsMyTripsActive(true)}
+                  >
+                    My Trips
+                  </Button>
+                </Link>
+                <Link to="/trip-journal" style={{ color: 'inherit' }}>
+                  <Button variant="ghost" className="w-full text-left mt-2 text-current font-bold">
+                    Trip Journal
+                  </Button>
+                </Link>
+                <Link to="/favourite-trips" style={{ color: 'inherit' }}>
+                  <Button variant="ghost" className="w-full text-left mt-2 text-current font-bold">
+                    ❤️ Favorite Trips
+                  </Button>
+                </Link>
+                <Button
+                  variant="ghost"
+                  className="w-full text-left mt-2 text-current text-red-500 font-semibold" 
+                  onClick={() => {
+                    googleLogout();
+                    localStorage.clear();
+                    window.location.reload();
+                  }}
+                >
+                  Log Out
+                </Button>
               </PopoverContent>
             </Popover>
           </div>
@@ -72,17 +99,26 @@ function Header() {
           <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
         )}
       </div>
-
-      <Dialog open={openDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img src="./jouneyGenieLogo.png" height="150" width="50" alt="" />
-              <h2 className='font-bold text-lg mt-7'>Sign In With Gmail Account</h2>
-              <p>Sign in to the App with Google authentication security</p>
+              <div className='flex justify-center'>
+                <img src="./jouneyGenieLogo.png" width="200" alt="Journey Genie Logo" />
+              </div>
+              <h2 className='text-lg mt-7 text-center font-extrabold text-black'>Sign In With Gmail Account</h2>
+              <p className='text-center'>Sign in to the Website with Google authentication security</p>
+
               <Button onClick={login} className="mt-5 w-full flex gap-4 items-center">
                 <FcGoogle className='h-7 w-7' />
                 Sign In with Google
+              </Button>
+
+              <Button
+                onClick={() => setOpenDialog(false)}
+                className="mt-3 w-full bg-gray-200 text-gray-600 hover:bg-gray-300"
+              >
+                Close
               </Button>
             </DialogDescription>
           </DialogHeader>
