@@ -10,7 +10,7 @@ export const createPhotoAlbum = async (tripId) => {
   const albums = {};
   tripData.photos.forEach(photo => {
     const albumKey = `${photo.dateTaken}_${photo.location}`;
-    
+
     if (!albums[albumKey]) {
       albums[albumKey] = [];
     }

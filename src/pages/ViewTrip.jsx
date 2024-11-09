@@ -1,11 +1,10 @@
-import Footer from '@/components/custom/Footer';
+import React, { useEffect, useState } from 'react';
 import Hotels from '@/components/custom/Hotels';
 import InfoSection from '@/components/custom/InfoSection';
 import PlacesToVisit from '@/components/custom/PlacesToVisit';
 import { Button } from '@/components/ui/button';
 import { db } from '@/service/FirebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -49,7 +48,7 @@ function ViewTrip() {
             toast("Removed from favorites");
         } else {
             // Add to favorites
-            const newFavorite = { id: tripId, ...trip }; // Assuming trip contains necessary info
+            const newFavorite = { id: tripId, ...trip };
             const updatedFavorites = [...favorites, newFavorite];
             setFavorites(updatedFavorites);
             localStorage.setItem('favoriteTrips', JSON.stringify(updatedFavorites));
@@ -72,9 +71,6 @@ function ViewTrip() {
                     {favorites.some(favorite => favorite.id === tripId) ? 'Remove from Favorites' : 'Add to Favorites'}
                 </Button>
             </div>
-
-            {/* Footer section */}
-            <Footer trip={trip} />
         </div>
     );
 }

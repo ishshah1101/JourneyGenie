@@ -1,97 +1,16 @@
-// import axios from 'axios';
-// import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
-
-// function HotelCardItem({ hotel }) {
-//     const [placeId, setPlaceId] = useState(null);
-//     const [errorMessage, setErrorMessage] = useState(null);
-//     const [imageUrl, setImageUrl] = useState(null);
-//     console.log(hotel);
-
-//     const apiKey = import.meta.env.VITE_GOOGLE_PLACE_API_KEY; // Your API key
-//     const hotelQuery = `${hotel?.hotelName} ${hotel?.hotelAddress}`; // Combine hotel name and address
-
-//     // Function to fetch the Place ID using the Places API Text Search with GET request
-//     const fetchPlaceId = async () => {
-//         try {
-
-//             const response = await axios.get(
-//                 `https://maps.googleapis.com/maps/api/place/textsearch/json`,
-//                 {
-//                     params: {
-//                         query: hotelQuery,  // Hotel name and address as the query
-//                         key: apiKey,
-//                     }
-//                 }
-//             );
-
-//             const data = response.data;
-
-//             if (data.status === 'OK' && data.results.length > 0) {
-//                 const fetchedPlaceId = data.results[0].place_id;
-//                 console.log(fetchPlaceId);
-
-//                 setPlaceId(fetchedPlaceId); // Set the fetched place ID
-
-//                 fetchGoogleImage(fetchedPlaceId); // Fetch Google Street View image
-//             } else {
-//                 setErrorMessage('Place ID not found.');
-//             }
-//         } catch (error) {
-//             setErrorMessage('Error fetching Place ID');
-//         }
-//     };
-
-//     // Function to fetch the Google Street View image using the Place ID
-//     const fetchGoogleImage = (placeId) => {
-//         const imageUrl = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=place_id:${placeId}&key=${apiKey}`;
-//         setImageUrl(imageUrl);  // Set the image URL in the state
-//     };
-
-//     useEffect(() => {
-//         if (hotel) {
-//             fetchPlaceId();  // Fetch place ID when the hotel details are available
-//         }
-//     }, [hotel]);
-
-//     return (
-//         <Link
-//             to={
-//                 "https://www.google.com/maps/search/?api=1&query=" + hotel?.hotelName + ',' + hotel?.hotelAddress
-//             }
-//             target="_blank"
-//         >
-//             <div className="hover:scale-105 transition-all">
-//                 {imageUrl ? (
-//                     <img src={imageUrl} alt="Google Street View" className="rounded-xl h-[180px] w-full object-cover" />
-//                 ) : (
-//                     <img src='../src/assets/datathon.jpg' alt="Placeholder" className="rounded-xl h-[180px] w-full object-cover" />
-//                 )}
-//                 <div className="my-2 flex flex-col gap-2">
-//                     <h2 className="font-medium">{hotel?.hotelName}</h2>
-//                     <h2 className="text-xs text-gray-500">📍{hotel?.hotelAddress}</h2>
-//                     <h2 className="text-sm">💰 {hotel?.price}</h2>
-//                     <h2 className="text-sm">⭐ {hotel?.rating}</h2>
-//                 </div>
-//             </div>
-//         </Link>
-//     );
-// }
-
-// export default HotelCardItem;
-
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { IoLocation } from "react-icons/io5";
-import { Button } from '../ui/button';
+import axios from 'axios'; // Import axios to make API requests
+import React, { useEffect, useState } from 'react'; // Import React and hooks for managing state and side-effects
+import { Link } from 'react-router-dom'; // Import Link for navigation to Google Maps
 
 function HotelCardItem({ hotel }) {
-    const [photoUrl, setPhotoUrl] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    // State for storing photo URL and loading state
+    const [photoUrl, setPhotoUrl] = useState(''); // Stores the URL for the hotel photo
+    const [isLoading, setIsLoading] = useState(true); // Tracks whether data is still loading
 
     useEffect(() => {
+        // Function to fetch the place details from the API based on geo-coordinates
         const fetchPlaceId = async () => {
+            // Early return if hotel or geoCoordinates are missing
             if (!hotel || !hotel.geoCoordinates) {
                 console.error('Invalid place data');
                 setIsLoading(false);
@@ -99,29 +18,35 @@ function HotelCardItem({ hotel }) {
             }
 
             try {
+                // Set loading state to true while fetching
                 setIsLoading(true);
-                setPhotoUrl(null);
+                setPhotoUrl(null); // Reset the photo URL to null while loading
 
+                // Destructure latitude and longitude from the hotel's geo-coordinates
                 const { latitude, longitude } = hotel.geoCoordinates;
+
+                // Make a request to the backend API for the place's details based on the geo-coordinates
                 const response = await axios.get(`http://localhost:3000/proxy?location=${latitude},${longitude}&radius=500`);
 
+                // Handle API errors or non-OK statuses
                 if (response.data.status !== 'OK') {
                     console.error('API Error:', response.data.status, response.data.error_message);
-                    setIsLoading(false);
+                    setIsLoading(false); // Set loading to false on error
                     return;
                 }
 
+                // Process the results if available
                 if (response.data.results && response.data.results.length > 0) {
+                    // Get the photo reference of a place from the middle of the results array
                     const middleIndex = Math.floor((response.data.results.length / 4));
-
                     const photoReference = response.data.results[middleIndex].photos
                         ? response.data.results[middleIndex].photos[0].photo_reference
                         : null;
 
+                    // If photo reference exists, construct the photo URL using the Google Places API
                     if (photoReference) {
                         const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?photo_reference=${encodeURIComponent(photoReference)}&maxwidth=1000&key=${encodeURIComponent(import.meta.env.VITE_GOOGLE_PLACE_API_KEY)}`;
-                        setPhotoUrl(photoUrl);
-                        console.log("Fetched Photo URL:", photoUrl);
+                        setPhotoUrl(photoUrl); // Update state with the photo URL
                     } else {
                         console.log("No photo reference found for the place.");
                     }
@@ -129,26 +54,32 @@ function HotelCardItem({ hotel }) {
                     console.error('No results found for the place.');
                 }
             } catch (error) {
+                // Log any errors encountered during the API request
                 console.error('Error fetching place details:', error);
             } finally {
+                // Set loading to false when the fetch is complete
                 setIsLoading(false);
             }
         };
 
-        fetchPlaceId();
-    }, [hotel]);
+        fetchPlaceId(); // Call the function to fetch place details when the component mounts or hotel data changes
+    }, [hotel]); // The effect depends on the `hotel` prop
+
     return (
         <Link
+            // Navigate to the Google Maps search for the hotel using its name
             to={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel?.hotelName)}`}
-            target="_blank"
+            target="_blank" // Open the link in a new tab
         >
             <div className="hover:scale-105 transition-all">
+                {/* Display the photo or a placeholder image while loading */}
                 {photoUrl ? (
                     <img src={photoUrl} alt="Google Street View" className="rounded-xl h-[180px] w-full object-cover" />
                 ) : (
                     <img src='../src/assets/hotel.jpg' alt="Placeholder" className="rounded-xl h-[180px] w-full object-cover" />
                 )}
                 <div className="my-2 flex flex-col gap-2">
+                    {/* Display the hotel name, address, price, and rating */}
                     <h2 className="font-medium">{hotel?.hotelName}</h2>
                     <h2 className="text-xs text-gray-500">📍{hotel?.hotelAddress}</h2>
                     <h2 className="text-sm">💰 {hotel?.price}</h2>
@@ -159,4 +90,4 @@ function HotelCardItem({ hotel }) {
     );
 }
 
-export default HotelCardItem;
+export default HotelCardItem; // Export the component for use in other parts of the app
