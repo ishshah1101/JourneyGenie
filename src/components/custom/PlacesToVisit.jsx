@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PlaceCardItem from './PlaceCardItem'
 
 function PlacesToVisit({trip}) {
+    useEffect(() => {
+        // console.log(trip);
+    })
   return (
     <div>
         <h2 className='font-bold text-lg'>Places to Visit</h2>
