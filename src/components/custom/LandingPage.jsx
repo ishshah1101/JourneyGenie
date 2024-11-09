@@ -27,10 +27,20 @@ import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
+    // <div
+    //   className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
+    //   style={{ backgroundImage: "url('/landing-page-wallpaper.jpg')" }}
+    // >
     <div
-      className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/landing-page-wallpaper.jpg')" }}
-    >
+  className="relative flex flex-col items-center justify-center min-h-screen bg-center"
+  style={{
+    backgroundImage: "url('/landing-page-wallpaper.jpg')",
+    backgroundSize: "cover", // This ensures the image covers the screen without distorting it
+    backgroundPosition: "center top", // Keeps the top of the image (sky) in view
+    backgroundRepeat: "no-repeat", // Ensures the image doesn't tile
+  }}
+>
+
       <div className="absolute inset-0 bg-black bg-opacity-60 z-0"></div>{" "}
       {/* Dark overlay */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto p-100">
@@ -48,6 +58,7 @@ function LandingPage() {
           <Button className="bg-[#FFD700] text-black hover:bg-yellow-600 text-lg sm:text-xl px-6 py-3">
             Plan your Trip
           </Button>
+
         </Link>
       </div>
     </div>

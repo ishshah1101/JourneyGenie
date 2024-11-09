@@ -186,7 +186,7 @@ function Header() {
 
   return (
     <div className={headerStyle}>
-      <Link to="/create-trip">
+      <Link to="/">
         <img src="/jouneyGenieLogo.png" className='h-25 w-40' alt="Journey Genie Logo" />
       </Link>
       <div className='flex justify-center items-center'>

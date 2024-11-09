@@ -222,13 +222,13 @@ function PlaceCardItem({ place }) {
           // const middleIndex = Math.floor(response.data.results.length/2 - 1);
           const middleIndex = Math.floor((response.data.results.length / 4) );
           // const middleIndex = 5;
-          console.log('Selected Result:', response.data.results[middleIndex]);
+          // console.log('Selected Result:', response.data.results[middleIndex]);
 
           const photoReference = response.data.results[middleIndex].photos
             ? response.data.results[middleIndex].photos[0].photo_reference
             : null;
 
-          console.log("Photo Reference ID:", photoReference);
+          // console.log("Photo Reference ID:", photoReference);
 
           if (photoReference) {
             const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?photo_reference=${encodeURIComponent(photoReference)}&maxwidth=1000&key=${encodeURIComponent(import.meta.env.VITE_GOOGLE_PLACE_API_KEY)}`;
@@ -262,11 +262,11 @@ function PlaceCardItem({ place }) {
             className="w-[100px] h-[130px] rounded-xl object-cover"
             onError={(e) => {
               console.error('Image failed to load:', e);
-              e.target.src = "../src/assets/datathon.jpg";
+              e.target.src = "../src/assets/place.jpg";
             }}
           />
         ) : (
-          <img src="../src/assets/datathon.jpg" alt="Default Place" className="w-[100px] h-[130px] rounded-xl object-cover" />
+          <img src="../src/assets/place.jpg" alt="Default Place" className="w-[100px] h-[130px] rounded-xl object-cover" />
         )}
         <div>
           <h2 className="font-bold text-lg">{place?.placeName}</h2>
@@ -281,3 +281,5 @@ function PlaceCardItem({ place }) {
 }
 
 export default PlaceCardItem;
+
+
