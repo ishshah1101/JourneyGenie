@@ -1,16 +1,16 @@
-import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { db } from "@/service/FirebaseConfig";
-import UserTripCardItem from "@/components/custom/UserTripCardItem";
-import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog"; // Importing Dialog components
-import { Button } from "@/components/ui/button"; // Adjust according to your button component
+import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore"; // Firebase Firestore utilities
+import React, { useEffect, useState } from "react"; // React hooks for component state and lifecycle
+import { useNavigate } from "react-router-dom"; // Navigation hook
+import { db } from "@/service/FirebaseConfig"; // Firebase configuration
+import UserTripCardItem from "@/components/custom/UserTripCardItem"; // Component for displaying individual trips
+import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog"; // Dialog components
+import { Button } from "@/components/ui/button"; // Button component
 
 function MyTrips() {
-  const [userTrips, setUserTrips] = useState([]);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [tripToDelete, setTripToDelete] = useState(null); // Store the ID of the trip to delete
-  const navigation = useNavigate(); // Corrected to useNavigate
+  const [userTrips, setUserTrips] = useState([]); // Stores user trips
+  const [openDialog, setOpenDialog] = useState(false); // Dialog visibility state
+  const [tripToDelete, setTripToDelete] = useState(null); // Stores ID of trip to delete
+  const navigation = useNavigate();
 
   useEffect(() => {
     GetUserTrips();
@@ -18,9 +18,8 @@ function MyTrips() {
 
   const GetUserTrips = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
-
     if (!user) {
-      navigation("/");
+      navigation("/"); // Redirect to home if user not found
       return;
     }
 
@@ -31,46 +30,47 @@ function MyTrips() {
     const querySnapshot = await getDocs(q);
     const trips = [];
     querySnapshot.forEach((doc) => {
-      trips.push({ ...doc.data(), id: doc.id }); // Include the document ID
+      trips.push({ ...doc.data(), id: doc.id }); // Retrieve trip data with ID
     });
     setUserTrips(trips);
   };
 
   const handleDeleteTrip = (tripId) => {
-    setTripToDelete(tripId); // Set the trip ID to delete
-    setOpenDialog(true); // Open the confirmation dialog
+    setTripToDelete(tripId);
+    setOpenDialog(true); // Show delete confirmation dialog
   };
 
   const confirmDelete = async () => {
     if (tripToDelete) {
-      await deleteDoc(doc(db, "AITrips", tripToDelete)); // Delete the trip from Firestore
-      setUserTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripToDelete)); // Update local state
+      await deleteDoc(doc(db, "AITrips", tripToDelete)); // Delete trip from Firestore
+      setUserTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripToDelete)); // Update local trips state
     }
-    setOpenDialog(false); // Close the dialog
+    setOpenDialog(false); // Close dialog after deletion
   };
 
   return (
     <div className="sm:px-10 md:px-32 p-10 md:px-20 mt-10 lg:px-36">
       <h2 className="font-bold text-3xl">My Trips</h2>
 
+      {/* Trip display grid */}
       <div className="grid grid-cols-2 mt-10 md:grid-cols-3 gap-5">
-        {userTrips?.length > 0
+        {userTrips.length > 0
           ? userTrips.map((trip, index) => (
               <UserTripCardItem
                 key={index}
                 trip={trip}
-                onDelete={handleDeleteTrip} // Pass the handleDeleteTrip function
+                onDelete={handleDeleteTrip} // Trigger delete dialog on click
               />
             ))
           : [1, 2, 3, 4, 5, 6].map((item, index) => (
               <div
                 key={index}
                 className="h-[220px] w-full bg-slate-200 animate-pulse rounded-xl"
-              ></div>
+              ></div> // Placeholder for loading state
             ))}
       </div>
 
-      {/* Confirmation Dialog */}
+      {/* Delete confirmation dialog */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>

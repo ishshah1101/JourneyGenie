@@ -6,13 +6,11 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  /* background-color: #000; */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Centered title */
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -47,7 +45,6 @@ input[type="number"] {
 .search-button {
   width: 100%;
   padding: 10px;
-  /* background-color: #007bff; */
   color: white;
   border: none;
   border-radius: 4px;
@@ -55,11 +52,6 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.search-button:hover {
-  /* background-color: #0056b3; */
-}
-
-/* Error message */
 .error-message {
   color: #d9534f;
   font-weight: bold;
@@ -67,7 +59,6 @@ input[type="number"] {
   text-align: center;
 }
 
-/* Flight results section */
 .flight-results {
   max-width: 700px;
   margin: 20px auto;
