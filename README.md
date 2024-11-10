@@ -1,4 +1,6 @@
-# React + Vite
+# Journey Genie
+
+## A website that generates Trip itineraries instantly!
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
