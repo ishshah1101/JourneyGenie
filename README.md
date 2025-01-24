@@ -71,7 +71,7 @@ VITE_GOOGLE_AUTH_CLIENT_ID=
 
 ## Project Photos
 - Landing page
-![landing page](src/assets/67b5cc0c-d12e-4af2-a696-c32278d544a9)
+![landing page](/src/assets/67b5cc0c-d12e-4af2-a696-c32278d544a9)
 
 - Google Authentication
 ![google auth](https://github.com/user-attachments/assets/a373b5de-798e-4b33-8f47-8bf7d5c574d6)
