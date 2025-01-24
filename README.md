@@ -58,8 +58,36 @@ The website should now be running locally and accessible at `http://localhost:51
 
 ## Additional Information
 
-- Make sure to configure any environment variables if required (e.g., using a `.env` file). Check for an `.env.example` file if present in the repository.
-- If you encounter any errors or issues, check the terminal output for details.
+- Make sure to configure these 3 environment variables in the new file inside the JourneyGenie folder named as .env.local and set these 3 variables values for successfully running the project:
+  ```bash
+VITE_GOOGLE_PLACE_API_KEY = 
+VITE_GOOGLE_GEMINI_TRIP_API_KEY=
+VITE_GOOGLE_AUTH_CLIENT_ID=
+  ```
+- Need to put Google Place API by using google cloud website: https://console.cloud.google.com/marketplace/product/google/places-backend.googleapis.com?q=search&referrer=search&project=notifyhub-442711
+- Need to use the website https://aistudio.google.com/prompts/new_chat?_gl=1*nwqe4g*_ga*MTAxNzMzNTk4OC4xNzM3NzUzMTE5*_ga_P1DBVKWT6V*MTczNzc1MzExOS4xLjAuMTczNzc1MzExOS42MC4wLjY0MDkyMjg3Mg.. for Gemini Trip Api Key
+- Use your google client id for creating the valid google authenticator of Gmail for logging in and saving your trips to Firebase
+
+
+## Project Photos
+- Landing page
+![landing page](https://github.com/user-attachments/assets/67b5cc0c-d12e-4af2-a696-c32278d544a9)
+
+- Google Authentication
+![google auth](https://github.com/user-attachments/assets/a373b5de-798e-4b33-8f47-8bf7d5c574d6)
+
+- Trip generation page
+![trip generation page](https://github.com/user-attachments/assets/225d19af-fa5e-48af-9b8f-1f2563ebac9d)
+
+- Result after generating the trip for Chicago city
+![image](https://github.com/user-attachments/assets/8ee4583b-0703-4bbf-aba8-f1ad186b6f64)
+
+- Flight search feature
+![image](https://github.com/user-attachments/assets/32c8cb97-5d8d-4cf4-8bdf-56f460b74a52)
+
+- Journal entries for keeping a track of different trips
+![image](https://github.com/user-attachments/assets/534ef616-7bf5-4679-881b-e2b31d65601f)
+
 
 
 
