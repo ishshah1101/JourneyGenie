@@ -22,52 +22,6 @@ git clone https://github.com/NandishDPatel/JourneyGenie.git
 ```
 
 
-### 2. Navigate to the Project Folder
-
-Change into the `JourneyGenie` directory on your local machine:
-
-```bash
-cd JourneyGenie
-```
-
-### 3. Install Dependencies
-
-Run the following command to install the necessary npm packages and dependencies:
-
-```bash
-npm install
-```
-
-### 4. Run the Node Proxy Server
-
-Start the Node.js proxy server by running the following command:
-
-```bash
-node proxy-server.js
-```
-
-### 5. Start the Development Server
-
-In a new terminal go inside the JourneyGenie project folder and then run the following command to launch the frontend development server:
-
-```bash
-npm run dev
-```
-
-The website should now be running locally and accessible at `http://localhost:5173`.
-
-## Additional Information
-
-- Make sure to configure these 3 environment variables in the new file inside the JourneyGenie folder named as .env.local and set these 3 variables values for successfully running the project:
-  
-  ```bash
-VITE_GOOGLE_PLACE_API_KEY = 
-VITE_GOOGLE_GEMINI_TRIP_API_KEY=
-VITE_GOOGLE_AUTH_CLIENT_ID=
-  ```
-
-
-
 ## Project Photos
 - Landing page
 ![Landing Page](src/assets/landing_page.png)
