@@ -5,22 +5,22 @@ JourneyGenie is a sophisticated AI-powered trip planning platform that streamlin
 
 ## Project Photos
 - Landing page
-![Landing Page](src/assets/landing_page.png)
+- ![Landing Page](src/assets/landing_page.png)
 
 - Google Authentication
-![Google Authentication](src/assets/google_auth.png)
+- ![Google Authentication](src/assets/google_auth.png)
 
 - Trip generation page
-![Trip Generation Page](src/assets/trip_generation_page.png)
+- ![Trip Generation Page](src/assets/trip_generation_page.png)
 
 - Result after generating the trip for Chicago city
-![Trip Result](src/assets/trip_result.png)
+- ![Trip Result](src/assets/trip_result.png)
 
 - Flight search feature
-![Flight Search Feature](src/assets/flight-search.png)
+- ![Flight Search Feature](src/assets/flight-search.png)
 
 - Journal entries for keeping a track of different trips
-![Journal Entries](src/assets/journal-entry.png)
+- ![Journal Entries](src/assets/journal-entry.png)
 
 
 ## Prerequisites
