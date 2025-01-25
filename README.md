@@ -81,10 +81,11 @@ The website should now be running locally and accessible at `http://localhost:51
 - Make sure to configure these 3 environment variables in the new file inside the JourneyGenie folder named as .env.local and set these 3 variables values for successfully running the project:
 - 
   ```bash
-- VITE_GOOGLE_PLACE_API_KEY = 
-- VITE_GOOGLE_GEMINI_TRIP_API_KEY=
-- VITE_GOOGLE_AUTH_CLIENT_ID=
-
+  - VITE_GOOGLE_PLACE_API_KEY = 
+  - VITE_GOOGLE_GEMINI_TRIP_API_KEY=
+  - VITE_GOOGLE_AUTH_CLIENT_ID=
+  ```
+  
 - Need to put Google Place API by using google cloud website: https://console.cloud.google.com/marketplace/product/google/places-backend.googleapis.com?q=search&referrer=search&project=notifyhub-442711
 
 - Need to use the website https://aistudio.google.com/prompts/new_chat?_gl=1*nwqe4g*_ga*MTAxNzMzNTk4OC4xNzM3NzUzMTE5*_ga_P1DBVKWT6V*MTczNzc1MzExOS4xLjAuMTczNzc1MzExOS42MC4wLjY0MDkyMjg3Mg.. for Gemini Trip Api Key
