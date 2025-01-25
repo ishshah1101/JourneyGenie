@@ -2,7 +2,6 @@
 
 JourneyGenie is a sophisticated AI-powered trip planning platform that streamlines the travel experience by offering personalized recommendations, seamless flight and hotel booking, and intuitive trip journaling. With the integration of external APIs and a user-friendly design, JourneyGenie is designed to cater to the needs of modern travelers, ensuring ease of use and accessibility. 
 
-
 ## Project Photos
 - Landing page
 - ![Landing Page](src/assets/landing_page.png)
@@ -91,4 +90,3 @@ The website should now be running locally and accessible at `http://localhost:51
 - Need to use the website https://aistudio.google.com/prompts/new_chat?_gl=1*nwqe4g*_ga*MTAxNzMzNTk4OC4xNzM3NzUzMTE5*_ga_P1DBVKWT6V*MTczNzc1MzExOS4xLjAuMTczNzc1MzExOS42MC4wLjY0MDkyMjg3Mg.. for Gemini Trip Api Key
 
 - Use your google client id for creating the valid google authenticator of Gmail for logging in and saving your trips to Firebase
-
