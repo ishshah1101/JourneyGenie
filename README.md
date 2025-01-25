@@ -71,19 +71,19 @@ VITE_GOOGLE_AUTH_CLIENT_ID=
 
 ## Project Photos
 - Landing page
-![landing page](/src/assets/landing page.png)
+![landing page](src/assets/landing_page.png)
 
 - Google Authentication
-![google auth](https://github.com/user-attachments/assets/a373b5de-798e-4b33-8f47-8bf7d5c574d6)
+![google auth](src/assets/google_auth.png)
 
 - Trip generation page
-![trip generation page](https://github.com/user-attachments/assets/225d19af-fa5e-48af-9b8f-1f2563ebac9d)
+![trip generation page](src/assets/trip_generation_page.png)
 
 - Result after generating the trip for Chicago city
-![image](https://github.com/user-attachments/assets/8ee4583b-0703-4bbf-aba8-f1ad186b6f64)
+![image](src/assets/trip_result.jpg)
 
 - Flight search feature
-![image](https://github.com/user-attachments/assets/32c8cb97-5d8d-4cf4-8bdf-56f460b74a52)
+![image](src/assets/flight-search.jpg)
 
 - Journal entries for keeping a track of different trips
-![image](https://github.com/user-attachments/assets/534ef616-7bf5-4679-881b-e2b31d65601f)
+![image](src/assets/journal-entry.png)
