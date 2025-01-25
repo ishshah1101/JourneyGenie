@@ -84,7 +84,6 @@ The website should now be running locally and accessible at `http://localhost:51
 - VITE_GOOGLE_PLACE_API_KEY = 
 - VITE_GOOGLE_GEMINI_TRIP_API_KEY=
 - VITE_GOOGLE_AUTH_CLIENT_ID=
-  ```
 
 - Need to put Google Place API by using google cloud website: https://console.cloud.google.com/marketplace/product/google/places-backend.googleapis.com?q=search&referrer=search&project=notifyhub-442711
 
