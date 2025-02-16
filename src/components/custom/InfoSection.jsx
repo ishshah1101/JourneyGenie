@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { Button } from "../ui/button";
 import { getplacedetails1 } from "@/service/GlobalApi";
@@ -7,7 +7,6 @@ function InfoSection({ trip }) {
   const [photoUrl, setPhotoUrl] = useState(null);
 
   useEffect(() => {
-    // Fetch place photo when trip data changes
     if (trip && trip?.userSelection?.location?.value?.place_id) {
       getPlacePhoto1();
     }
@@ -24,11 +23,12 @@ function InfoSection({ trip }) {
 
     try {
       const result1 = await getplacedetails1(placeId);
-      
+
       if (result1.data.photos && result1.data.photos.length > 0) {
-        // Construct photo URL
         const photoReference = result1.data.photos[0].name;
-        const photoUrl = `https://places.googleapis.com/v1/${photoReference}/media?maxHeightPx=1000&maxWidthPx=1000&key=${import.meta.env.VITE_GOOGLE_PLACE_API_KEY}`;
+        const photoUrl = `https://places.googleapis.com/v1/${photoReference}/media?maxHeightPx=1000&maxWidthPx=1000&key=${
+          import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+        }`;
         setPhotoUrl(photoUrl);
       }
     } catch (error) {
@@ -36,7 +36,7 @@ function InfoSection({ trip }) {
     }
   };
 
-  // Fetch place details using location label (currently unused)
+  // Fetch place details using location label
   const GetPlacePhoto = async () => {
     const locationLabel = trip?.userSelection?.location?.label;
 
@@ -46,7 +46,7 @@ function InfoSection({ trip }) {
     }
 
     const data = {
-      textQuery: locationLabel
+      textQuery: locationLabel,
     };
 
     try {
@@ -58,7 +58,6 @@ function InfoSection({ trip }) {
 
   return (
     <div>
-      {/* Display place photo if available */}
       {photoUrl && (
         <img
           src={photoUrl}
@@ -68,7 +67,6 @@ function InfoSection({ trip }) {
       )}
 
       <div className="flex justify-between items-center">
-        {/* Trip information */}
         <div className="my-5 flex flex-col gap-2">
           <h2 className="font-bold text-2xl">
             {trip?.userSelection?.location?.label || "No Location Selected"}
@@ -86,7 +84,7 @@ function InfoSection({ trip }) {
             </h2>
           </div>
         </div>
-        {/* Send button */}
+
         <Button>
           <IoIosSend />
         </Button>

@@ -1,9 +1,9 @@
 import { searchFlights, searchAirports } from '@/service/FlightApi';
 import { Button } from '@/components/ui/button';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import './FlightSearch.css';
-import { airportData } from '@/assets/airportData';
+import { airportData } from '@/components/constants/airportData';
 
 const FlightSearch = () => {
   const [sourceCity, setSourceCity] = useState('');
@@ -220,10 +220,10 @@ const FlightSearch = () => {
         {flights.length > 0 ? (
           <ul className="flights-list">
             {flights.slice(0, 10).map((flight, flightIndex) => {
-              // Calculate the provider index using modulo
-              const providerIndex = flightIndex % 4; // Alternates between 0, 1, 2, 3
+          
+              const providerIndex = flightIndex % 4; 
 
-              // Check if there are valid purchase links available
+           
               if (flight.purchaseLinks && flight.purchaseLinks.length > 0 && providerIndex < flight.purchaseLinks.length) {
                 return (
                   <li key={flightIndex}>
@@ -248,7 +248,7 @@ const FlightSearch = () => {
                 );
               }
 
-              // Skip rendering this flight if no purchase links are available
+           
               return null;
             })}
           </ul>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { format, parseISO, isWithinInterval } from 'date-fns';
 import { db } from '@/service/FirebaseConfig';
-import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog"; // Import Dialog components
+import { Dialog, DialogContent, DialogDescription, DialogHeader } from "@/components/ui/dialog"; 
 
 const TripJournal = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -10,9 +10,8 @@ const TripJournal = () => {
   const [loading, setLoading] = useState(true);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [openDialog, setOpenDialog] = useState(false); // State for dialog visibility
-  const [entryToDelete, setEntryToDelete] = useState(null); // State for entry to delete
-
+  const [openDialog, setOpenDialog] = useState(false);
+  const [entryToDelete, setEntryToDelete] = useState(null); 
   useEffect(() => {
     const fetchJournalEntries = async () => {
       if (!user) {
@@ -26,7 +25,7 @@ const TripJournal = () => {
         const querySnapshot = await getDocs(q);
         const entries = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        // Sort entries by journalDate in descending order
+       
         const sortedEntries = entries.sort((a, b) => {
           return new Date(b.journalDate) - new Date(a.journalDate);
         });
@@ -103,7 +102,7 @@ const TripJournal = () => {
               <p className="text-gray-600">Date: {format(new Date(entry.journalDate), 'MMMM d, yyyy')}</p>
             </div>
 
-            {/* Notes */}
+       
             <div className="mb-4">
               <h4 className="text-xl font-semibold">Notes:</h4>
               {entry.notes?.length > 0 ? (
@@ -113,7 +112,6 @@ const TripJournal = () => {
               )}
             </div>
 
-            {/* Photos */}
             <div className="mb-4">
               <h4 className="text-xl font-semibold">Photos:</h4>
               {entry.photos?.length > 0 ? (
@@ -127,7 +125,7 @@ const TripJournal = () => {
               )}
             </div>
 
-            {/* Videos */}
+    
             <div className="mb-4">
               <h4 className="text-xl font-semibold">Videos:</h4>
               {entry.videos?.length > 0 ? (
@@ -143,7 +141,7 @@ const TripJournal = () => {
               )}
             </div>
 
-            {/* Delete Button */}
+      
             <button
               onClick={() => {
                 setEntryToDelete(entry.id);
@@ -157,7 +155,7 @@ const TripJournal = () => {
         ))
       )}
 
-      {/* Delete Confirmation Dialog */}
+  
       <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>

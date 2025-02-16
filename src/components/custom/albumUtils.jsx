@@ -16,6 +16,6 @@ export const createPhotoAlbum = async (tripId) => {
     }
     albums[albumKey].push(photo.url);
   });
-
+  
   return albums;  // Returns albums grouped by date and location
 };
