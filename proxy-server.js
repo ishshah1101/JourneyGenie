@@ -10,7 +10,7 @@ app.use(cors());
 
 app.get('/proxy', async (req, res) => {
     const { location, radius } = req.query;
-    const googleAPIKey = import.meta.env.VITE_GOOGLE_PLACE_API_KEY;  // Replace with your actual Google Places API key
+    const googleAPIKey = "-";  // Replace with your actual Google Places API key
 
     if (!location || !radius) {
         return res.status(400).send('Missing location or radius');

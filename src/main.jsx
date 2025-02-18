@@ -12,7 +12,7 @@ import FavouriteTrips from './pages/FavouriteTrips.jsx';
 import TripJournal from './pages/TripJournal.jsx';
 import CreateJournal from './components/custom/CreateJournal.jsx';
 import FlightSearch from './pages/FlightSearch.jsx';
-import LandingPage from './components/custom/LandingPage.jsx';
+import LandingPage from './pages/LandingPage.jsx';
 
 const router = createBrowserRouter([
   {

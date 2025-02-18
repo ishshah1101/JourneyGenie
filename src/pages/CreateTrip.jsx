@@ -59,12 +59,12 @@ function CreateTrip() {
       toast("Please fill all details");
       return;
     }
-    if (formData?.noOfDays < 0) {
-      toast("Total days can't negative");
+    if (formData?.noOfDays <= 0) {
+      toast("Total days can't be negative not zero.");
       return;
     }
-    if (formData?.noOfDays > 8) {
-      toast("Total days can't be more than 7 days.");
+    if (formData?.noOfDays >= 6) {
+      toast("Total days can't be more than 6 days.");
       return;
     }
 
@@ -120,14 +120,14 @@ function CreateTrip() {
       <h2 className="font-bold text-3xl">
         Tell us about your travel preferences!! 🏕️🌴
       </h2>
-      <p className="mt-3 text-gray-500 text-xl">
+      <p className="mt-3 text-gray-500 text-xl pb-4 border-b-4">
         Tell us your travel preferences, budget, and group size, and we'll
         create a personalized itinerary just for you. Whether it's adventure,
         relaxation, or culture, we'll tailor the perfect trip to suit your style
         and needs. Your ideal vacation starts here!
       </p>
-      <div className="flex flex-col mt-20 gap-10">
-        <div className="mt-20">
+      <div className="flex flex-col mt-2 gap-10">
+        <div className="mt-5">
           <h2 className="text-xl my-3 font-medium">
             What is your destination of your choice?
           </h2>

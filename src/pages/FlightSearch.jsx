@@ -1,8 +1,217 @@
+// import { searchFlights, searchAirports } from '@/service/FlightApi';
+// import { Button } from '@/components/ui/button';
+// import { useState, useEffect } from 'react';
+// import { toast } from 'sonner';
+// import { airportData } from '@/components/constants/airportData';
+
+// const FlightSearch = () => {
+//   const [sourceCity, setSourceCity] = useState('');
+//   const [destinationCity, setDestinationCity] = useState('');
+//   const [sourceAirportCode, setSourceAirportCode] = useState('');
+//   const [destinationAirportCode, setDestinationAirportCode] = useState('');
+//   const [travelDate, setTravelDate] = useState('');
+//   const [numAdults, setNumAdults] = useState(1);
+//   const [numSeniors, setNumSeniors] = useState(0);
+//   const [flights, setFlights] = useState([]);
+//   const [error, setError] = useState(null);
+//   const [itineraryType, setItineraryType] = useState("ONE_WAY");
+//   const handleSourceAirportSearch = async (city) => {
+//     try {
+//       const response = await searchAirports(city);
+//       if (response?.data?.data?.length > 0) {
+//         const airportCode = response.data.data[0].airportCode;
+//         setSourceAirportCode(airportCode);
+//         return airportCode;
+//       } else {
+//         setError(`No airport found for ${city}`);
+//         return null;
+//       }
+//     } catch (err) {
+//       setError(`Error fetching airport data: ${err.message}`);
+//       return null;
+//     }
+//   };
+
+//   const handleDestinationAirportSearch = async (city) => {
+//     try {
+//       const response = await searchAirports(city);
+//       if (response?.data?.data?.length > 0) {
+//         const airportCode = response.data.data[0].airportCode;
+//         setDestinationAirportCode(airportCode);
+//         return airportCode;
+//       } else {
+//         setError(`No airport found for ${city}`);
+//         return null;
+//       }
+//     } catch (err) {
+//       setError(`Error fetching airport data: ${err.message}`);
+//       return null;
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (sourceCity) {
+//       handleSourceAirportSearch(sourceCity);
+//     }
+//   }, [sourceCity]);
+
+//   useEffect(() => {
+//     if (destinationCity) {
+//       handleDestinationAirportSearch(destinationCity);
+//     }
+//   }, [destinationCity]);
+
+//   useEffect(() => {
+//     if (sourceAirportCode && destinationAirportCode && travelDate) {
+//       handleFlightSearch();
+//     }
+//   }, [sourceAirportCode, destinationAirportCode, travelDate]);
+
+//   const handleFlightSearch = async () => {
+//     const loadingToast = toast.loading('Fetching flight details...');
+//     setError(null);
+//     setFlights([]);
+
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+//     const selectedDate = new Date(travelDate);
+
+//     if (selectedDate < today) {
+//       setError('Travel date should not be in the past.');
+//       toast.dismiss(loadingToast);
+//       return;
+//     }
+
+//     let sourcecode = sourceAirportCode || (await handleSourceAirportSearch(sourceCity));
+//     let destinationcode = destinationAirportCode || (await handleDestinationAirportSearch(destinationCity));
+
+//     if (!sourcecode || !destinationcode) {
+//       setError('Please select both source and destination airports.');
+//       toast.dismiss(loadingToast);
+//       return;
+//     }
+
+//     try {
+//       const response = await searchFlights(sourcecode, destinationcode, travelDate, numAdults, numSeniors);
+//       if (response?.data?.flights) {
+//         setFlights(response.data.flights);
+//         toast.success('Flights fetched successfully!');
+//       } else {
+//         setFlights([]);
+//         setError('No flights found.');
+//         toast.error('No flights found.');
+//       }
+//     } catch (err) {
+//       setError(err.message);
+//       toast.error(`Error: ${err.message}`);
+//     } finally {
+//       toast.dismiss(loadingToast);
+//     }
+//   };
+
+//   return (
+//     <div className="flex flex-col items-center mt-10">
+//       <div className="max-w-lg w-full p-6 border border-gray-300 rounded-lg shadow-lg bg-white">
+//         <h1 className="text-2xl font-bold text-center mb-4">Flight Search</h1>
+
+//         <div className="mb-4">
+//           <label className="block font-medium mb-1">Source City:</label>
+//           <select
+//             className="w-full p-2 border border-gray-300 rounded"
+//             value={sourceCity}
+//             onChange={(e) => setSourceCity(e.target.value)}
+//           >
+//             <option value="">Select Source City</option>
+//             {airportData.map(city => (
+//               <option key={city} value={city}>{city}</option>
+//             ))}
+//           </select>
+//         </div>
+
+//         <div className="mb-4">
+//           <label className="block font-medium mb-1">Destination City:</label>
+//           <select
+//             className="w-full p-2 border border-gray-300 rounded"
+//             value={destinationCity}
+//             onChange={(e) => setDestinationCity(e.target.value)}
+//           >
+//             <option value="">Select Destination City</option>
+//             {airportData.map(city => (
+//               <option key={city} value={city}>{city}</option>
+//             ))}
+//           </select>
+//         </div>
+
+//         <div className="mb-4">
+//           <label className="block font-medium mb-1">Travel Date:</label>
+//           <input
+//             type="date"
+//             className="w-full p-2 border border-gray-300 rounded"
+//             value={travelDate}
+//             onChange={(e) => setTravelDate(e.target.value)}
+//           />
+//         </div>
+
+//         <div className="mb-4 flex gap-4">
+//           <div>
+//             <label className="block font-medium mb-1">Adults:</label>
+//             <input
+//               type="number"
+//               min="1"
+//               className="w-full p-2 border border-gray-300 rounded"
+//               value={numAdults}
+//               onChange={(e) => setNumAdults(Number(e.target.value))}
+//             />
+//           </div>
+
+//           <div>
+//             <label className="block font-medium mb-1">Seniors:</label>
+//             <input
+//               type="number"
+//               min="0"
+//               className="w-full p-2 border border-gray-300 rounded"
+//               value={numSeniors}
+//               onChange={(e) => setNumSeniors(Number(e.target.value))}
+//             />
+//           </div>
+//         </div>
+
+//         <Button className="w-full bg-black hover:bg-blue-600 text-white py-2 rounded-lg" onClick={handleFlightSearch}>
+//           Search Flights
+//         </Button>
+
+//         {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+//       </div>
+
+//       <div className="w-full max-w-lg m-6">
+//         <h2 className="text-xl font-semibold text-center mb-4">Available Flights</h2>
+//         {flights.length > 0 ? (
+//           <ul className="space-y-4">
+//             {flights.slice(0, 10).map((flight, index) => (
+//               <li key={index} className="border p-4 rounded-lg shadow-md">
+//                 <p><strong>Total Passengers:</strong> {numAdults + numSeniors}</p>
+//                 <p><strong>Total Price:</strong> ${flight.purchaseLinks?.[0]?.totalPrice || 'N/A'}</p>
+//                 {flight.purchaseLinks?.[0]?.url && (
+//                   <a href={flight.purchaseLinks[0].url} target="_blank" className="text-blue-500 underline">
+//                     Book on {flight.purchaseLinks[0].providerId}
+//                   </a>
+//                 )}
+//               </li>
+//             ))}
+//           </ul>
+//         ) : <p className="text-center text-gray-500">No flights found.</p>}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default FlightSearch;
+
+
 import { searchFlights, searchAirports } from '@/service/FlightApi';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import './FlightSearch.css';
 import { airportData } from '@/components/constants/airportData';
 
 const FlightSearch = () => {
@@ -13,16 +222,15 @@ const FlightSearch = () => {
   const [travelDate, setTravelDate] = useState('');
   const [numAdults, setNumAdults] = useState(1);
   const [numSeniors, setNumSeniors] = useState(0);
-  const [classOfService, setClassOfService] = useState('ECONOMY');
   const [flights, setFlights] = useState([]);
   const [error, setError] = useState(null);
-
+  const [itineraryType, setItineraryType] = useState("ONE_WAY");
   const handleSourceAirportSearch = async (city) => {
     try {
       const response = await searchAirports(city);
-      if (response && response.data && response.data.data.length > 0) {
+      if (response?.data?.data?.length > 0) {
         const airportCode = response.data.data[0].airportCode;
-        setSourceAirportCode(airportCode); // Update the source airport code
+        setSourceAirportCode(airportCode);
         return airportCode;
       } else {
         setError(`No airport found for ${city}`);
@@ -37,9 +245,9 @@ const FlightSearch = () => {
   const handleDestinationAirportSearch = async (city) => {
     try {
       const response = await searchAirports(city);
-      if (response && response.data && response.data.data.length > 0) {
+      if (response?.data?.data?.length > 0) {
         const airportCode = response.data.data[0].airportCode;
-        setDestinationAirportCode(airportCode); // Update the destination airport code
+        setDestinationAirportCode(airportCode);
         return airportCode;
       } else {
         setError(`No airport found for ${city}`);
@@ -52,106 +260,88 @@ const FlightSearch = () => {
   };
 
   useEffect(() => {
-    // Trigger the airport search when source or destination city changes
     if (sourceCity) {
-      handleSourceAirportSearch(sourceCity); // Search for source airport
+      handleSourceAirportSearch(sourceCity);
     }
-  }, [sourceCity]); // Depend on sourceCity change
+  }, [sourceCity]);
 
   useEffect(() => {
-    // Trigger the airport search when destination city changes
     if (destinationCity) {
-      handleDestinationAirportSearch(destinationCity); // Search for destination airport
+      handleDestinationAirportSearch(destinationCity);
     }
-  }, [destinationCity]); // Depend on destinationCity change
+  }, [destinationCity]);
 
   useEffect(() => {
     if (sourceAirportCode && destinationAirportCode && travelDate) {
-      handleFlightSearch(); // Trigger flight search when all fields are valid
+      handleFlightSearch();
     }
-  }, [sourceAirportCode, destinationAirportCode, travelDate]); // Trigger on airport or travel date change
+  }, [sourceAirportCode, destinationAirportCode, travelDate]);
 
   const handleFlightSearch = async () => {
-    // Display loading toast
-    const loadingToast = toast.loading("Fetching flight details...");
-
+    const loadingToast = toast.loading('Fetching flight details...');
     setError(null);
-    setFlights([]); // Clear previous flight results before fetching new ones
+    setFlights([]);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const selectedDate = new Date(travelDate);
 
     if (selectedDate < today) {
-      setError("Travel date should not be in the past.");
-      toast.dismiss(loadingToast); // Dismiss loading toast
+      setError('Travel date should not be in the past.');
+      toast.dismiss(loadingToast);
       return;
     }
 
-    let sourcecode = sourceAirportCode;
-    let destinationcode = destinationAirportCode;
-
-    if (!sourcecode) {
-      sourcecode = await handleSourceAirportSearch(sourceCity);
-    }
-    if (!destinationcode) {
-      destinationcode = await handleDestinationAirportSearch(destinationCity);
-    }
+    let sourcecode = sourceAirportCode || (await handleSourceAirportSearch(sourceCity));
+    let destinationcode = destinationAirportCode || (await handleDestinationAirportSearch(destinationCity));
 
     if (!sourcecode || !destinationcode) {
-      setError("Please select both source and destination airports.");
-      toast.dismiss(loadingToast); // Dismiss loading toast
+      setError('Please select both source and destination airports.');
+      toast.dismiss(loadingToast);
       return;
     }
 
     try {
-      const response = await searchFlights(
-        sourcecode,
-        destinationcode,
-        travelDate,
-        numAdults,
-        numSeniors,
-        classOfService
-      );
-
-      if (response && response.data && response.data.flights) {
+      const response = await searchFlights(sourcecode, destinationcode, travelDate, numAdults, numSeniors);
+      if (response?.data?.flights) {
         setFlights(response.data.flights);
-        toast.success("Flights fetched successfully!"); // Show success toast
+        toast.success('Flights fetched successfully!');
       } else {
         setFlights([]);
-        setError("No flights found.");
-        toast.error("No flights found."); // Show error toast
+        setError('No flights found.');
+        toast.error('No flights found.');
       }
     } catch (err) {
       setError(err.message);
-      toast.error(`Error: ${err.message}`); // Show error toast
+      toast.error(`Error: ${err.message}`);
     } finally {
-      toast.dismiss(loadingToast); // Dismiss loading toast
+      toast.dismiss(loadingToast);
     }
   };
 
   return (
-    <div>
-      <div className="flight-search">
-         <h1>Flight Search</h1>
-         <div className="form-group">
-           <label htmlFor="sourceCity">Source City:</label>
-           <select
-             id="sourceCity"
-             value={sourceCity}
-             onChange={(e) => setSourceCity(e.target.value)}
-           >
-             <option value="">Select Source City</option>
-             {airportData.map(city => (
-               <option key={city} value={city}>{city}</option>
-             ))}
-           </select>
+    <div className="flex flex-col items-center mt-10">
+      <div className="max-w-lg w-full p-6 border border-gray-300 rounded-lg shadow-lg bg-white">
+        <h1 className="text-2xl font-bold text-center mb-4">Flight Search</h1>
+
+        <div className="mb-4">
+          <label className="block font-medium mb-1">Source City:</label>
+          <select
+            className="w-full p-2 border border-gray-300 rounded"
+            value={sourceCity}
+            onChange={(e) => setSourceCity(e.target.value)}
+          >
+            <option value="">Select Source City</option>
+            {airportData.map(city => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="destinationCity">Destination City:</label>
+        <div className="mb-4">
+          <label className="block font-medium mb-1">Destination City:</label>
           <select
-            id="destinationCity"
+            className="w-full p-2 border border-gray-300 rounded"
             value={destinationCity}
             onChange={(e) => setDestinationCity(e.target.value)}
           >
@@ -162,101 +352,69 @@ const FlightSearch = () => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="travelDate">Travel Date:</label>
+        <div className="mb-4">
+          <label className="block font-medium mb-1">Travel Date:</label>
           <input
-            id="travelDate"
             type="date"
+            className="w-full p-2 border border-gray-300 rounded"
             value={travelDate}
             onChange={(e) => setTravelDate(e.target.value)}
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="numAdults">Adults:</label>
-          <input
-            id="numAdults"
-            type="number"
-            min="1"
-            value={numAdults}
-            onChange={(e) => setNumAdults(Number(e.target.value))}
-          />
+        <div className="mb-4 flex gap-4">
+          <div>
+            <label className="block font-medium mb-1">Adults:</label>
+            <input
+              type="number"
+              min="1"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={numAdults}
+              onChange={(e) => setNumAdults(Number(e.target.value))}
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium mb-1">Seniors:</label>
+            <input
+              type="number"
+              min="0"
+              className="w-full p-2 border border-gray-300 rounded"
+              value={numSeniors}
+              onChange={(e) => setNumSeniors(Number(e.target.value))}
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="numSeniors">Seniors:</label>
-          <input
-            id="numSeniors"
-            type="number"
-            min="0"
-            value={numSeniors}
-            onChange={(e) => setNumSeniors(Number(e.target.value))}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="classOfService">Class of Service:</label>
-          <select
-            id="classOfService"
-            value={classOfService}
-            onChange={(e) => setClassOfService(e.target.value)}
-          >
-            <option value="ECONOMY">Economy</option>
-            <option value="PREMIUM_ECONOMY">Premium Economy</option>
-            <option value="BUSINESS">Business</option>
-            <option value="FIRST">First</option>
-          </select>
-        </div>
-
-        <Button className="search-button" onClick={handleFlightSearch}>
+        <Button className="w-full bg-black hover:bg-blue-600 text-white py-2 rounded-lg" onClick={handleFlightSearch}>
           Search Flights
         </Button>
 
-        {error && <div className="error-message">Error: {error}</div>}
+        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
       </div>
 
-      <div className="flight-results">
-        <h2>Available Flights</h2>
+      <div className="w-full max-w-lg m-6">
+        <h2 className="text-xl font-semibold text-center mb-4">Available Flights</h2>
         {flights.length > 0 ? (
-          <ul className="flights-list">
-            {flights.slice(0, 10).map((flight, flightIndex) => {
-          
-              const providerIndex = flightIndex % 4; 
-
-           
-              if (flight.purchaseLinks && flight.purchaseLinks.length > 0 && providerIndex < flight.purchaseLinks.length) {
-                return (
-                  <li key={flightIndex}>
-                    <div className="purchase-link">
-                      <p><strong className='text-xl'>Total Passengers:</strong> <span className='text-2xl'>{numAdults + numSeniors}</span></p>
-                      <div className='flex gap-10'>
-                        <p><strong>Adults:</strong> {numAdults}</p>
-                        <p><strong>Seniors:</strong> {numSeniors}</p>
-                      </div>
-                      <p><strong>Total Price:</strong> <span className="text-2xl">${flight.purchaseLinks[providerIndex].totalPrice}</span></p>
-                      <div className='text-center'>
-                        <a
-                          href={flight.purchaseLinks[providerIndex].url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Book on {flight.purchaseLinks[providerIndex].providerId}
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                );
-              }
-
-           
-              return null;
-            })}
+          <ul className="space-y-4">
+            {flights.slice(0, 10).map((flight, index) => (
+              <li key={index} className="border p-4 rounded-lg shadow-md">
+                <p><strong>Total Passengers:</strong> {numAdults + numSeniors}</p>
+                <div className='flex gap-3 justify-between'>
+                <p><strong>Adults:</strong><span> {numAdults}</span></p>
+                <p><strong>Seniors:</strong><span> {numSeniors}</span></p>
+                </div>
+                <p className='text-center'><strong>Total Price:</strong> ${flight.purchaseLinks?.[0]?.totalPrice || 'N/A'}</p>
+                {flight.purchaseLinks?.[0]?.url && (
+                  <a href={flight.purchaseLinks[0].url} target="_blank" className="text-blue-500 underline">
+                    Book on {flight.purchaseLinks[0].providerId}
+                  </a>
+                )}
+              </li>
+            ))}
           </ul>
-        ) : (
-          <p>No flights found.</p>
-        )}
+        ) : <p className="text-center text-gray-500">No flights found.</p>}
       </div>
-
     </div>
   );
 };

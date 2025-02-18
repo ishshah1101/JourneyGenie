@@ -12,7 +12,6 @@ function ViewTrip() {
     const { tripId } = useParams();
     const [trip, setTrip] = useState({});
     const [favorites, setFavorites] = useState(() => {
-      
         const storedFavorites = localStorage.getItem('favoriteTrips');
         return storedFavorites ? JSON.parse(storedFavorites) : [];
     });
@@ -41,13 +40,11 @@ function ViewTrip() {
         const isFavorite = favorites.some(favorite => favorite.id === tripId);
         
         if (isFavorite) {
-          
             const updatedFavorites = favorites.filter(favorite => favorite.id !== tripId);
             setFavorites(updatedFavorites);
             localStorage.setItem('favoriteTrips', JSON.stringify(updatedFavorites));
             toast("Removed from favorites");
         } else {
-            
             const newFavorite = { id: tripId, ...trip };
             const updatedFavorites = [...favorites, newFavorite];
             setFavorites(updatedFavorites);

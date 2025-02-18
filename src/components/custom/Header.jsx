@@ -39,7 +39,7 @@ function Header() {
         }
       )
       .then((resp) => {
-        localStorage.setItem("user", JSON.stringify(resp.data));
+        localStorage.setItem("user", JSON.stringify(resp.data)); //stores user's oAuth access token locally on their device
         setOpenDialog(false);
         window.location.reload();
       });
@@ -62,7 +62,7 @@ function Header() {
       <Link to="/">
         <img
           src="/jouneyGenieLogo.png"
-          className="h-25 w-40"
+          className="h-25 w-40 hover:cursor-pointer"
           alt="Journey Genie Logo"
         />
       </Link>

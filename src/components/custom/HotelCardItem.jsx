@@ -1,10 +1,11 @@
-import axios from "axios"; // Import axios to make API requests
-import { useEffect, useState } from "react"; // Import React and hooks for managing state and side-effects
-import { Link } from "react-router-dom"; // Import Link for navigation to Google Maps
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function HotelCardItem({ hotel }) {
   const [photoUrl, setPhotoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const { latitude, longitude } = hotel.geoCoordinates;
 
   useEffect(() => {
     const fetchPlaceId = async () => {
@@ -17,8 +18,6 @@ function HotelCardItem({ hotel }) {
       try {
         setIsLoading(true);
         setPhotoUrl(null);
-
-        const { latitude, longitude } = hotel.geoCoordinates;
 
         const response = await axios.get(
           `http://localhost:3000/proxy?location=${latitude},${longitude}&radius=500`
