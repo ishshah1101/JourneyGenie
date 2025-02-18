@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 const API_HOST = 'https://tripadvisor16.p.rapidapi.com';
+
 // const API_KEY = '67d9de671emsh00be9539178feb5p1b440djsnd2d955e57427';
 const API_KEY = '0064acb0bdmsh8ce8335f616311dp1446fcjsn94de5b0ede26';
+
 
 export const searchAirports = async (query) => {
   const response = await axios.get(`${API_HOST}/api/v1/flights/searchAirport?query=${query.toLowerCase()}`,
