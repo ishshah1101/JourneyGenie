@@ -88,5 +88,8 @@ The website should now be running locally and accessible at `http://localhost:51
 - Need to put Google Place API by using google cloud website: https://console.cloud.google.com/marketplace/product/google/places-backend.googleapis.com?q=search&referrer=search&project=notifyhub-442711
 
 - Need to use the website https://aistudio.google.com/prompts/new_chat?_gl=1*nwqe4g*_ga*MTAxNzMzNTk4OC4xNzM3NzUzMTE5*_ga_P1DBVKWT6V*MTczNzc1MzExOS4xLjAuMTczNzc1MzExOS42MC4wLjY0MDkyMjg3Mg.. for Gemini Trip Api Key
-
 - Use your google client id for creating the valid google authenticator of Gmail for logging in and saving your trips to Firebase
+
+- Also have to place your VITE_GOOGLE_PLACE_API_KEY inside the proxy-server.js file where it is written like googleAPIKEY="-".
+
+- And then the project will be up and running:)

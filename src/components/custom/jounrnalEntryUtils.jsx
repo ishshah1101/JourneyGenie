@@ -6,13 +6,11 @@ export const addTripJournalEntry = async (journalEntryData, photos, videos) => {
   try {
     const { note } = journalEntryData;
 
-    // Generate a unique document ID using timestamp
-    const docId = Date.now().toString(); 
+    const docId = Date.now().toString();
 
     let photoURLs = [];
     let videoURLs = [];
 
-    // Upload photos and get their download URLs
     if (photos && photos.length > 0) {
       for (let i = 0; i < photos.length; i++) {
         const photo = photos[i];
@@ -23,7 +21,6 @@ export const addTripJournalEntry = async (journalEntryData, photos, videos) => {
       }
     }
 
-    // Upload videos and get their download URLs
     if (videos && videos.length > 0) {
       for (let i = 0; i < videos.length; i++) {
         const video = videos[i];
@@ -34,12 +31,11 @@ export const addTripJournalEntry = async (journalEntryData, photos, videos) => {
       }
     }
 
-    // Create journal entry object
     const journalEntry = {
       note,
       photos: photoURLs,
       videos: videoURLs,
-      timestamp: new Date().toISOString(), 
+      timestamp: new Date().toISOString(),
     };
 
     // Save journal entry to Firestore

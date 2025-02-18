@@ -1,4 +1,3 @@
-/* Container styling for flight search form */
 .flight-search {
   max-width: 600px;
   margin: 20px auto;
@@ -18,7 +17,6 @@ h1 {
   color: #333;
 }
 
-/* Form styling */
 .form-group {
   margin-bottom: 15px;
   width: 100%;
@@ -41,7 +39,6 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
-/* Button styling */
 .search-button {
   width: 100%;
   padding: 10px;
@@ -78,14 +75,12 @@ input[type="number"] {
   margin-bottom: 20px;
 }
 
-/* Flight list styling */
 .flights-list {
   list-style-type: none;
   padding: 0;
   width: 100%;
 }
 
-/* Flight item styling */
 .flights-list li {
   background-color: #ffffff;
   padding: 20px;
@@ -104,7 +99,6 @@ input[type="number"] {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Flight provider information styling */
 .flights-list p {
   margin: 5px 0;
   font-size: 18px;
@@ -130,7 +124,6 @@ input[type="number"] {
   text-decoration: underline;
 }
 
-/* Consistent spacing */
 .flight-search .form-group,
 .flight-results .flights-list li {
   width: 100%;

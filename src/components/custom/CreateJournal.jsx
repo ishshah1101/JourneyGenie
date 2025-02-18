@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { db, storage } from '@/service/FirebaseConfig';
 import { addDoc, collection } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -43,20 +43,18 @@ const CreateJournal = () => {
 
       // Create a journal entry linked to the user's Gmail account (user.email)
       const journalEntry = {
-        userId: user.email,  // Use the user's email as unique ID
-        notes: [note],       // Notes entered by the user
-        photos: photoUrls,   // Uploaded photo URLs
-        videos: videoUrls,   // Uploaded video URLs
-        journalDate,         // Selected date of the journal entry
+        userId: user.email,  
+        notes: [note],      
+        photos: photoUrls,   
+        videos: videoUrls,   
+        journalDate,         
         createdAt: new Date(),
       };
 
       await addDoc(collection(db, 'TripJournals'), journalEntry);
-
-      // Show success toast after journal entry submission
+  
       toast("Journal entry created successfully!", { status: 'success' });
 
-      // Reset form fields
       setNote('');
       setPhotos([]);
       setVideos([]);
