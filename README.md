@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # JourneyGenie
 
 JourneyGenie is a sophisticated AI-powered trip planning platform that streamlines the travel experience by offering personalized recommendations, seamless flight and hotel booking, and intuitive trip journaling. With the integration of external APIs and a user-friendly design, JourneyGenie is designed to cater to the needs of modern travelers, ensuring ease of use and accessibility. 
@@ -93,3 +94,6 @@ The website should now be running locally and accessible at `http://localhost:51
 - Also have to place your VITE_GOOGLE_PLACE_API_KEY inside the proxy-server.js file where it is written like googleAPIKEY="-".
 
 - And then the project will be up and running:)
+=======
+# JourneyGenie
+>>>>>>> 83fa837749e885f7a8c01c7e921777020691fbfe
